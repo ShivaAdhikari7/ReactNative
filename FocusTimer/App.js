@@ -12,13 +12,17 @@ import { Colors } from "./src/utils/Colors";
 import { fontSizes, spacing } from "./src/utils/Sizes";
 export default function App() {
   const [focusHistory, setFocusHistory] = useState([]);
-  const [focusSubject, setFocusSubject] = useState("");
+  const [focusSubject, setFocusSubject] = useState(null);
   const focusItems = [
     { key: "1", subject: "Read", status: 1 },
     { key: "2", subject: "Reading", status: 0 },
   ];
   const onClearHandler = () => {
     setFocusHistory([]);
+  };
+
+  const onclearSubject = () => {
+    setFocusSubject(null);
   };
 
   const addFocusHistory = (subject, status) => {
@@ -67,7 +71,7 @@ export default function App() {
           <FocusHistory focusHistory={focusItems} onClear={onClearHandler} />
         </>
       ) : (
-        <Timer focusSubject={focusSubject} />
+        <Timer focusSubject={focusSubject} clearSubject={onclearSubject} />
       )}
     </SafeAreaView>
   );
