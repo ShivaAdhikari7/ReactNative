@@ -14,9 +14,9 @@ import { RoundedButton } from "../../components/RoundedButton";
 const HistoryItem = ({ item, index }) => {
   return <Text style={styles.historyItem(item.status)}>{item.status}</Text>;
 };
-export const FocusHistory = ({ focusHistory }) => {
+export const FocusHistory = ({ focusHistory, onClear }) => {
   const clearHistory = () => {
-    // onClear();
+    onClear();
   };
   return (
     <>
@@ -39,7 +39,7 @@ export const FocusHistory = ({ focusHistory }) => {
               ))}
             </ScrollView>
             <View style={styles.clearContainer}>
-              <RoundedButton size={75} title="Clear" />
+              <RoundedButton size={75} title="Clear" onPress={clearHistory} />
             </View>
           </>
         )}
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   historyItem: (status) => ({
     color: status === 1 ? "red" : "green",
-    fontSize: 100,
+    fontSize: fontSizes.md,
   }),
   title: {
     color: "white",

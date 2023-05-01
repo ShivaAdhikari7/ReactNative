@@ -1,29 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import Constants from "expo-constants";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { Timer } from "./src/features/timer/Timer";
 import { Focus } from "./src/features/focus/Focus";
 import { FocusHistory } from "./src/features/focus/FocusHistory";
 
 import { Colors } from "./src/utils/Colors";
 import { fontSizes, spacing } from "./src/utils/Sizes";
 export default function App() {
-  const [currentSubject, setCurrentSubject] = useState("");
+  const [focusHistory, setFocusHistory] = useState([]);
+  const [focusSubject, setFocusSubject] = useState("");
   const focusItems = [
     { key: "1", subject: "Read", status: 1 },
     { key: "2", subject: "Reading", status: 0 },
   ];
+  const onClearHandler = () => {
+    setFocusHistory([]);
+  };
+
+  const addFocusHistory = (subject, status) => {
+    setFocusHistory([
+      ...focusHistory,
+      { key: String(focusHistory.length + 1), subject, status },
+    ]);
+  };
+
+  const saveFocusHistory = async () => {
+    try {
+      await AsyncStorage.setItem("focusHistory", JSON.stringify(focusItems));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const loadFocusHistory = async () => {
+    try {
+      const history = await AsyncStorage.getItem("focusHistory");
+      if (history && JSON.parse(history).length) {
+        setFocusHistory(JSON.parse(history));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    setFocusHistory(focusItems);
+  }, []);
+
+  useEffect(() => {
+    loadFocusHistory();
+  }, []);
+
+  useEffect(() => {
+    saveFocusHistory();
+  }, [focusHistory]);
+
   return (
     <SafeAreaView style={styles.container}>
-      {!currentSubject ? (
+      {!focusSubject ? (
         <>
-          <Focus onAddSubject={setCurrentSubject} />
-          <FocusHistory focusHistory={focusItems} />
+          <Focus onAddSubject={setFocusSubject} />
+          <FocusHistory focusHistory={focusItems} onClear={onClearHandler} />
         </>
       ) : (
-        <Text style={[{ color: Colors.white }, styles.text]}>
-          Hello from {currentSubject}
-        </Text>
+        <Timer focusSubject={focusSubject} />
       )}
     </SafeAreaView>
   );
