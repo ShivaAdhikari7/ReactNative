@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { View, Text, StyleSheet } from "react-native";
 import { TextInput } from "react-native";
-import { Colors } from "../utils/Colors";
-import { RoundedButton } from "./RoundedButton";
+import { Colors } from "../../utils/Colors";
+import { RoundedButton } from "../../components/RoundedButton";
 
 export const Focus = ({ onAddSubject }) => {
   const [subject, setSubject] = useState("");
