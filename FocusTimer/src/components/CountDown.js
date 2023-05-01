@@ -7,12 +7,12 @@ import { Colors } from "../utils/Colors";
 const minutesToMilis = (min) => min * 1000 * 60;
 const formatTime = (time) => (time < 10 ? `0${time}` : time);
 
-export const CountDown = ({ minutes = 0.1, isPaused, onEnd }) => {
+export const CountDown = ({ minutes = 0.01, isPaused, onEnd }) => {
   const interval = React.useRef(null);
-  const [millis, setMills] = useState(null);
+  const [millis, setMillis] = useState(null);
 
   const countDown = () => {
-    setMills((time) => {
+    setMillis((time) => {
       if (time === 0) {
         clearInterval(interval.current);
         onEnd();
@@ -21,21 +21,21 @@ export const CountDown = ({ minutes = 0.1, isPaused, onEnd }) => {
       const timeLeft = time - 1000;
       return timeLeft;
     });
-
-    useEffect(() => {
-      setMills(minutesToMilis(minutes));
-    }, [minutes]);
-
-    useEffect(() => {
-      if (isPaused) {
-        if (interval.current) clearInterval(interval.current);
-        return;
-      }
-      interval.current = setInterval(countDown, 1000);
-
-      return () => clearInterval(interval.current);
-    }, [isPaused]);
   };
+  useEffect(() => {
+    setMillis(minutesToMilis(minutes));
+  }, [minutes]);
+
+  useEffect(() => {
+    if (isPaused) {
+      if (interval.current) clearInterval(interval.current);
+      return;
+    }
+    interval.current = setInterval(countDown, 1000);
+
+    return () => clearInterval(interval.current);
+  }, [isPaused]);
+
   const minute = Math.floor(millis / 1000 / 60) % 60;
   const seconds = Math.floor(millis / 1000) % 60;
 

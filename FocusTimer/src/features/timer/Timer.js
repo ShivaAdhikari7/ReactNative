@@ -4,6 +4,7 @@ import { CountDown } from "../../components/CountDown";
 import { spacing } from "../../utils/Sizes";
 import { RoundedButton } from "../../components/RoundedButton";
 import { Timing } from "./Timing";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const DEFAULT_TIME = 0.1;
 export const Timer = ({ focusSubject, clearSubject }) => {
@@ -48,11 +49,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  title: {
+    color: Colors.white,
+    textAlign: "center",
+    marginBottom: 10,
+    fontSize: 25,
+  },
+  task: {
+    color: Colors.white,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginBottom: 10,
+    fontSize: 22,
+  },
   buttonWrapper: {
-    flex: 1,
+    flex: 0.3,
+    padding: 15,
     alignContent: "center",
     justifyContent: "center",
     flexDirection: "row",
-    gap: 40,
+    // gap: 40,
+  },
+  countdown: {
+    flex: 0.5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clearSubject: {
+    paddingBottom: 25,
+    paddingLeft: 25,
   },
 });
