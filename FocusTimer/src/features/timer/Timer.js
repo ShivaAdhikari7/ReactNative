@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Vibration } from "react-native";
 import { CountDown } from "../../components/CountDown";
 import { spacing } from "../../utils/Sizes";
 import { RoundedButton } from "../../components/RoundedButton";
@@ -13,7 +13,16 @@ export const Timer = ({ focusSubject, clearSubject, onTimerEnd }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [onProgress, setProgress] = useState(1);
 
+  const vibrate = () => {
+    if (Platform.OS === "ios") {
+      const interval = setInterval(() => Vibration.vibrate(), 1000);
+      setTimeout(() => clearInterval(interval), 10000);
+    } else {
+      Vibration.vibrate(1000);
+    }
+  };
   const onEnd = () => {
+    vibrate();
     setMinutes(DEFAULT_TIME);
     setProgress(1);
     setIsStarted(false);
