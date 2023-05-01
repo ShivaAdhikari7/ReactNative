@@ -13,7 +13,9 @@ export const CountDown = ({ minutes = 0.01, isPaused, onEnd }) => {
 
   const countDown = () => {
     setMillis((time) => {
-      if (time === 0) {
+      console.log(time);
+      if (time == 0) {
+        console.log("Hello");
         clearInterval(interval.current);
         onEnd();
         return time;

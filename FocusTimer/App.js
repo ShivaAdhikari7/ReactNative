@@ -10,22 +10,27 @@ import { FocusHistory } from "./src/features/focus/FocusHistory";
 
 import { Colors } from "./src/utils/Colors";
 import { fontSizes, spacing } from "./src/utils/Sizes";
+
+const STATUS = {
+  COMPLETE: 1,
+  CANCELLED: 2,
+};
+
 export default function App() {
   const [focusHistory, setFocusHistory] = useState([]);
-  const [focusSubject, setFocusSubject] = useState(null);
+  const [focusSubject, setFocusSubject] = useState("");
   const focusItems = [
-    { key: "1", subject: "Read", status: 1 },
-    { key: "2", subject: "Reading", status: 0 },
+    { key: "1", subject: "Reading", status: 1 },
+    { key: "2", subject: "Writting", status: 0 },
+    { key: "3", subject: "Excercise", status: 1 },
   ];
   const onClearHandler = () => {
     setFocusHistory([]);
   };
 
-  const onclearSubject = () => {
-    setFocusSubject(null);
-  };
-
   const addFocusHistory = (subject, status) => {
+    console.log(subject);
+    console.log(focusHistory.length + 1);
     setFocusHistory([
       ...focusHistory,
       { key: String(focusHistory.length + 1), subject, status },
@@ -34,7 +39,7 @@ export default function App() {
 
   const saveFocusHistory = async () => {
     try {
-      await AsyncStorage.setItem("focusHistory", JSON.stringify(focusItems));
+      await AsyncStorage.setItem("focusHistory", JSON.stringify(focusHistory));
     } catch (e) {
       console.log(e);
     }
@@ -52,7 +57,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    setFocusHistory(focusItems);
+    setFocusHistory(focusHistory);
   }, []);
 
   useEffect(() => {
@@ -63,6 +68,7 @@ export default function App() {
     saveFocusHistory();
   }, [focusHistory]);
 
+  console.log(focusHistory);
   return (
     <SafeAreaView style={styles.container}>
       {!focusSubject ? (
@@ -71,7 +77,17 @@ export default function App() {
           <FocusHistory focusHistory={focusItems} onClear={onClearHandler} />
         </>
       ) : (
-        <Timer focusSubject={focusSubject} clearSubject={onclearSubject} />
+        <Timer
+          focusSubject={focusSubject}
+          onTimerEnd={() => {
+            addFocusHistory(focusSubject, STATUS.COMPLETE);
+            setFocusSubject(null);
+          }}
+          clearSubject={() => {
+            addFocusHistory(focusHistory, STATUS.CANCELLED);
+            setFocusSubject(null);
+          }}
+        />
       )}
     </SafeAreaView>
   );

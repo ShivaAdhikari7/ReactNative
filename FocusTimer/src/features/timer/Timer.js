@@ -5,25 +5,42 @@ import { spacing } from "../../utils/Sizes";
 import { RoundedButton } from "../../components/RoundedButton";
 import { Timing } from "./Timing";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+// import { ProgressBar } from "react-native-paper";
 
 const DEFAULT_TIME = 0.1;
-export const Timer = ({ focusSubject, clearSubject }) => {
+export const Timer = ({ focusSubject, clearSubject, onTimerEnd }) => {
   const [minutes, setMinutes] = useState(20);
   const [isStarted, setIsStarted] = useState(false);
+  const [onProgress, setProgress] = useState(1);
 
   const onEnd = () => {
     setMinutes(DEFAULT_TIME);
+    setProgress(1);
     setIsStarted(false);
+    onTimerEnd();
   };
   const changeTime = (min) => {
     setMinutes(min);
+    setProgress(1);
     setIsStarted(false);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.countdown}>
-        <CountDown minutes={minutes} isPaused={!isStarted} onEnd={onEnd} />
+        <CountDown
+          minutes={minutes}
+          isPaused={!isStarted}
+          onProgress={onProgress}
+          onEnd={onEnd}
+        />
+      </View>
+      <View style={{ paddingTop: spacing.sm }}>
+        {/* <ProgressBar
+          progress={onProgress}
+          color="#5E84E2"
+          style={{ height: 10 }}
+        /> */}
       </View>
       <View style={{ paddingTop: spacing.xxl }}>
         <Text style={styles.title}>Focusing On:</Text>

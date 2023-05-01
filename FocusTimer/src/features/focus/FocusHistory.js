@@ -18,23 +18,18 @@ export const FocusHistory = ({ focusHistory, onClear }) => {
   const clearHistory = () => {
     onClear();
   };
+
   return (
     <>
       <SafeAreaView style="0.5, alignItems:'center'">
         {focusHistory.length && (
           <>
-            <Text style={styles.text}>Things you have focused on are: </Text>
-            <FlatList
-              style={{ flex: 1 }}
-              contentContainerStyle={{ flex: 1, alignItems: "center" }}
-              data={focusHistory}
-              renderItem={HistoryItem}
-            />
-            <Text style={styles.historyItem(2)}>{focusHistory[0].subject}</Text>
+            <Text style={styles.text}>Things you can set a timer for: </Text>
+
             <ScrollView>
-              {focusHistory.map((item, index) => (
+              {focusHistory.map((item) => (
                 <Text key={item.key} style={styles.historyItem(item.status)}>
-                  {item.subject}
+                  {`->  ${item.subject}`}
                 </Text>
               ))}
             </ScrollView>
