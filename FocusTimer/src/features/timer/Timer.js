@@ -5,6 +5,7 @@ import { spacing } from "../../utils/Sizes";
 import { RoundedButton } from "../../components/RoundedButton";
 import { Timing } from "./Timing";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+
 // import { ProgressBar } from "react-native-paper";
 
 const DEFAULT_TIME = 0.1;
