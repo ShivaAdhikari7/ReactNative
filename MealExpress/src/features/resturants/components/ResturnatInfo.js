@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
   },
   address: {
     color: "green",
-    fontSize: 15,
+    fontSize: 16,
   },
 });
