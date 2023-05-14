@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   name: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "bold",
   },
   address: {
